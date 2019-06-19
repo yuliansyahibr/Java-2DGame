@@ -1,6 +1,7 @@
 package game.model.object;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -16,6 +17,10 @@ public class EnemiesManager {
 	int n;
 	
 	public static boolean SPAWN_STATUS;
+	private Animation animation;
+	private BufferedImage[] sprite;
+	
+	private boolean EXPLODED;
 	
 	public EnemiesManager(int enemyOffset, int attackOffset) {
 		enemies = new ArrayList<Enemy>();
@@ -23,36 +28,41 @@ public class EnemiesManager {
 		this.enemyOffset = enemyOffset;
 		this.attackOffset = attackOffset;
 		
-		AudioPlayer.load("/Sounds/explosion.wav", "explosion");
+//		BufferedImage image = Images.Explosion;
+//		sprite = new BufferedImage[5]; 
+//		for (int i = 0; i < 5; i++) {
+//			sprite[i] = image.getSubimage(i*32, 0, 32, 32);
+//		}
+//		
+//		animation = new Animation();
+//		animation.setFrames(sprite, 3);
+		
+		AudioPlayer.load("/Sounds/explosion3.mp3", "explosion");
 	}
 	
 	public void init(Player player) {
 		Enemy.setPlayer(player);
+//		Enemy.setExplosionAnimation(Images.Explosion);
 	}
 	
 	public void spawnEnemies() {
 		
-		int z = rand.nextInt(enemyOffset)+1;
-//		System.out.println(z);
-		
-//		if(z%2 == 0) {
-//			System.out.println(z);
+//		int z = rand.nextInt(enemyOffset)+1;
+
 		int col = 8;
 		int space = GamePanel.WIDTH/col;
 		
 			int e = rand.nextInt(255)+1;
-//			System.out.println("--"+e);
-			int sisa = e;
 		
 			for (int i = 0; i < 8; i++) {
 				int x = rand.nextInt(20)+10;
 				int y = rand.nextInt(50)+10;
-				if(sisa%2 == 1) {
-					enemies.add(new Enemy(i*space+x, -20-y));
+				if(e%2 == 1) {
+					enemies.add(new EnemyB(i*space+x, -20-y));
 		//				System.out.println(i*20*2);
 				}
 				
-				sisa /= 2;
+				e /= 2;
 			}
 //		}
 	}
@@ -69,9 +79,9 @@ public class EnemiesManager {
 		for (int i = 0; i < enemies.size(); i++) {
 			Enemy enemy = enemies.get(i);
 			
-			int r = rand.nextInt(70)+20;
+			int r = rand.nextInt(100)+30;
 			
-			if((int)enemy.y%50 == 0) enemy.attack();
+			if((int)enemy.y%r == 0) enemy.attack();
 			
 			enemy.update();
 			
@@ -92,9 +102,11 @@ public class EnemiesManager {
 //			System.out.println(enemy.x);
 			if(attack.collision(enemy)) {
 				AudioPlayer.play("hit");
-				enemies.remove(i);
+//				enemies.remove(i);
+				enemy.setDead(true);
 				AudioPlayer.play("explosion");
-				attack.setRemove();
+//				EXPLODED = true;
+				attack.setRemove(true);
 				i--;
 				return true;
 			}

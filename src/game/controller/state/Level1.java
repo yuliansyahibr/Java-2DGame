@@ -34,8 +34,9 @@ public class Level1 extends GameState{
 		bgX = 0;
 		bgY = 0;
 		try {
-			bg = ImageIO.read(getClass().getResourceAsStream("/bg4.png"));
-
+			bg = ImageIO.read(getClass().getResourceAsStream("/bg-test4.png"));
+			
+			AudioPlayer.loop("bgm_level1", 600, AudioPlayer.getFrames("bgm_level1") - 2000);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -71,6 +72,8 @@ public class Level1 extends GameState{
 		if(bgY > GamePanel.HEIGHT) bgY=0;
 
 		if(player.dead) {
+			//stop bgm
+			AudioPlayer.stop("bgm_level1");
 			gsm.setGameOver(true);
 			AudioPlayer.play("game_over");
 			return;
@@ -85,10 +88,7 @@ public class Level1 extends GameState{
 	public void draw(Graphics2D g2) {
 		
 		//draw background
-		g2.setColor(Color.WHITE);
-		g2.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
-		g2.drawImage(bg, (int)bgX,(int) bgY, GamePanel.WIDTH, GamePanel.HEIGHT, null);
-		g2.drawImage(bg, (int)bgX, (int)bgY-GamePanel.HEIGHT, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+		drawBackground(g2);
 		
 		ticks++;
 //		System.out.println(ticks);
@@ -100,6 +100,14 @@ public class Level1 extends GameState{
 		em.drawEnemies(g2);
 				
 		player.draw(g2);
+	}
+	
+	private void drawBackground(Graphics2D g2) {
+		//draw background
+		g2.setColor(Color.WHITE);
+		g2.fillRect(0, 0, GamePanel.WIDTH, GamePanel.HEIGHT);
+		g2.drawImage(bg, (int)bgX,(int) bgY, GamePanel.WIDTH, GamePanel.HEIGHT, null);
+		g2.drawImage(bg, (int)bgX, (int)bgY-GamePanel.HEIGHT, GamePanel.WIDTH, GamePanel.HEIGHT, null);
 	}
 
 	@Override
@@ -116,7 +124,8 @@ public class Level1 extends GameState{
 		}
 		
 		if(Keys.isPressed(Keys.SPACE)) {
-			gsm.setPaused(true);;
+			AudioPlayer.stop("bgm_level1");
+			gsm.setPaused(true);
 		}
 		
 	}

@@ -61,9 +61,9 @@ public class MenuState extends GameState{
 			AudioPlayer.load("/Sounds/menuselect.mp3", "menuselect");
 //			AudioPlayer.load("/Sounds/playerhit.wav", "hit");
 			
-			AudioPlayer.load("/Sounds/bgm_menu.mp3", "bgm_menu");
+			AudioPlayer.load("/Sounds/Frenchyboy_TitleScreen_Music.mp3", "bgm_menu");
 			
-			AudioPlayer.loop("bgm_menu", 600, AudioPlayer.getFrames("bgm_menu") - 2200);
+			AudioPlayer.loop("bgm_menu", 600, AudioPlayer.getFrames("bgm_menu") - 2000);
 //			AudioPlayer.loop("attack1", 0, AudioPlayer.getFrames("attack1")-10);
 			
 		} catch (Exception e) {
@@ -154,9 +154,12 @@ public class MenuState extends GameState{
 	
 	
 	private void select() {
+		//play sfx
+		AudioPlayer.play("menuselect");
 		if (currentChoice == 0) {
 			AudioPlayer.stop("bgm_menu");
-			AudioPlayer.play("menuselect");
+			// load audio
+			AudioPlayer.load("/Sounds/Long_Away_Home.mp3", "bgm_level1");
 			gsm.setState(GameStateManager.LEVEL1);
 		}else if (currentChoice == 1) {
 			

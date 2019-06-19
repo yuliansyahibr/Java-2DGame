@@ -52,7 +52,7 @@ public abstract class Attack extends GameEntity{
 		
 	}
 	
-	public void setRemove() {
+	public void setRemove(boolean b) {
 		remove = true;
 	}
 	

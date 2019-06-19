@@ -52,18 +52,32 @@ public class AudioPlayer {
 	}
 	
 	public static void play(String s, int i) {
+		//jika audio sedang di-mute, batalkan play
 		if(mute) return;
+		
+		// get audio clip return jika null 
 		Clip c = clips.get(s);
 		if(c == null) return;
+		
+		// jika audio sedang running, stop
 		if(c.isRunning()) c.stop();
+		
+		// set posisi frame audio
 		c.setFramePosition(i);
+		
+		// start audio sampai selesai atau sampai method stop() dipanggil
 		while(!c.isRunning()) c.start();
 	}
 	
+	
+	// stop audio
 	public static void stop(String s) {
+		
+		// stop audio jika sedang running
 		if(clips.get(s) == null) return;
 		if(clips.get(s).isRunning()) clips.get(s).stop();
 	}
+	
 	
 	public static void resume(String s) {
 		if(mute) return;
@@ -72,7 +86,6 @@ public class AudioPlayer {
 	}
 	
 	// loop audio 
-	// 
 	public static void loop(String s, int start, int end) {
 		loop(s, gap, start, end);
 	}

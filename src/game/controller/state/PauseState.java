@@ -27,7 +27,7 @@ public class PauseState extends GameState{
 		
 		fontColor = Color.LIGHT_GRAY;
 		font1 = new Font("Times New Roman", Font.PLAIN,  28);
-		font2 = new Font("Arial", Font.PLAIN, 12);
+		font2 = new Font("Arial", Font.PLAIN, 11);
 		
 		bgColor = new Color(0.221f, 0.221f, 0.221f, 0.01f);
 	}
@@ -53,13 +53,16 @@ public class PauseState extends GameState{
 		g2.drawString("P A U S E D", 128, 130);
 		
 		g2.setFont(font2);		
-		int xPos = GamePanel.WIDTH/2 - 72; 
-		g2.drawString("Press space to continue. . .", xPos, 165);;
+		int xPos = GamePanel.WIDTH/2 - 58; 
+		g2.drawString("Press esc to exit game", xPos, 165);;
 	}
 
 	@Override
 	public void handleInput() {
-		if(Keys.isPressed(Keys.SPACE)) {
+		if(Keys.isPressed(Keys.ESCAPE)) {
+			gsm.setPaused(false);
+			gsm.setState(GameStateManager.MENUSTATE);
+		}else if (Keys.anyKeyPress()) {
 			gsm.setPaused(false);
 		}
 	}

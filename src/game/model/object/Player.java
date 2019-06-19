@@ -15,8 +15,7 @@ public class Player extends GameEntity{
 	
 	private boolean up, down, left, right;
 	private boolean wallX, wallY;
-	
-//	public int width, height;
+
 	
 	public double v;
 	public double deceleration;
@@ -24,8 +23,6 @@ public class Player extends GameEntity{
 	public static int score=0;
 	
 	private Font fontScore;
-	
-//	private Attack attack;
 	
 	private ArrayList<Player_Attack> attacks;
 	
@@ -37,7 +34,7 @@ public class Player extends GameEntity{
 		
 		up = down = false;
 		
-		health = 10;
+		health = 12;
 		dx = 0;
 		dy = 0;
 		v=2.6;
@@ -74,11 +71,6 @@ public class Player extends GameEntity{
 		g2.setFont(fontScore);
 		g2.drawString("Score: "+score, GamePanel.WIDTH-70, 20);
 		
-//		if(dead) {
-////			g2.setColor(Color.DARK_GRAY);
-//			g2.setFont(new Font("Times New Roman", Font.PLAIN,  20));
-//			g2.drawString("G A M E  O V E R", 132, 130);
-//		}
 		
 		for (Attack attack : attacks) {
 			attack.draw(g2);
@@ -89,6 +81,8 @@ public class Player extends GameEntity{
 //		g2.fillRect((int)x, (int)y, this.width, this.height);
 		g2.drawImage(img, (int)x, (int)y, width, height, null);
 		
+		
+		// draw health bar
 		g2.setColor(Color.decode("#780303"));
 		g2.fillRect(5, GamePanel.HEIGHT-25, 8*10, 10);
 		g2.setColor(Color.decode("#FFF25C"));
@@ -99,12 +93,7 @@ public class Player extends GameEntity{
 	}
 	
 	public void update() {
-//		if(up) y -= dy;
-//		else if(down) y += dy;
-//		
-//		if(left) x -= dx;
-//		else if(right) x += dx;
-		
+
 		if(health <=0 ) {
 			dead = true;
 			return;
@@ -126,18 +115,6 @@ public class Player extends GameEntity{
 				i--;
 			}
 		}
-		
-//		for (Attack attack : attacks) {
-//			attack.update();
-//			enemyManager.playerAttack(attack);
-//			if(attack.shouldRemove()) {
-//				attacks.remove(attack);
-//			}
-//		}
-		
-//		if(attack != null) {
-//			attack.move();
-//		}
 	}
 	
 	
@@ -221,7 +198,6 @@ public class Player extends GameEntity{
 		if(x+dx <= 0 || x+dx+width >= GamePanel.WIDTH) dx = 0;
 		
 		if(y+dy <= 0 || y+dy+height >= GamePanel.HEIGHT) dy = 0;
-		
 		
 	}
 }

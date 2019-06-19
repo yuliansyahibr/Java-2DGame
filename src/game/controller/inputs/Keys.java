@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 
 public class Keys {
 	
-	public static final int NUM_KEYS = 10;
+	public static final int NUM_KEYS = 11;
 	
 	public static boolean keyState[] = new boolean[NUM_KEYS];
 	public static boolean prevKeyState[] = new boolean[NUM_KEYS];
@@ -19,6 +19,7 @@ public class Keys {
 	public static int A = 7;
 	public static int S = 8;
 	public static int D = 9;
+	public static int ESCAPE = 10;
 	
 	
 	public static void keySet(int i, boolean b) {
@@ -32,7 +33,7 @@ public class Keys {
 		else if(i == KeyEvent.VK_A) keyState[A] = b;
 		else if(i == KeyEvent.VK_S) keyState[S] = b;
 		else if(i == KeyEvent.VK_D) keyState[D] = b;
-		
+		else if(i == KeyEvent.VK_ESCAPE) keyState[ESCAPE] = b;
 	}
 	
 	public static void update() {
@@ -47,7 +48,7 @@ public class Keys {
 	
 	public static boolean anyKeyPress() {
 		for (int i = 0; i < NUM_KEYS; i++) {
-			if(keyState[i]) return true;
+			if(isPressed(i)) return true;
 		}
 		return false;
 	}
