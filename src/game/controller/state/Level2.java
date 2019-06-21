@@ -10,9 +10,9 @@ import javax.imageio.ImageIO;
 
 import game.controller.inputs.Keys;
 import game.controller.inputs.Mouse;
-import game.model.object.Attack;
-import game.model.object.EnemiesManager;
 import game.model.object.Player;
+import game.model.object.attack.Attack;
+import game.model.object.enemy.EnemiesManager;
 import game.view.GamePanel;
 
 public class Level2 extends GameState{
@@ -46,11 +46,11 @@ public class Level2 extends GameState{
 	@Override
 	public void init() {
 		
-		em = new EnemiesManager(11, 2);		
+		em = new EnemiesManager();		
 		player = new Player();
 		
 		em.init(player);		
-		player.init(em, Player.score);
+		player.init(em, Player.getScore());
 	}
 
 	@Override

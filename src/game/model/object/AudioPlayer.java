@@ -7,21 +7,32 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 
+
+// memakai library external agar bisa meload mp3
 public class AudioPlayer {
 
+	// kumpulan -key, value- yang berisi audio dan nama audio tsb
 	private static HashMap<String, Clip> clips;
+	// jarak antara lagu
 	private static int gap;
+	// status mute
 	private static boolean mute = false;
 	
+	// inisialisasi
 	public static void init() {
 		clips = new HashMap<String, Clip>();
 		gap = 0;
 	}
 	
+	// load audio
 	public static void load(String s, String n) {
+		// return jika audio sudah diload sebelumnya
 		if(clips.get(n) != null) return;
+		
+		// load audio dari folder resource
 		Clip clip;
-		try {			
+		try {
+			// get audio
 			AudioInputStream ais =
 				AudioSystem.getAudioInputStream(
 					AudioPlayer.class.getResourceAsStream(s)
@@ -37,8 +48,11 @@ public class AudioPlayer {
 				false
 			);
 			AudioInputStream dais = AudioSystem.getAudioInputStream(decodeFormat, ais);
+			// Get a clip resource.
 			clip = AudioSystem.getClip();
+			// Open audio clip and load samples from the audio input stream.
 			clip.open(dais);
+			// masukkan clip ke hashmap
 			clips.put(n, clip);
 		}
 		catch(Exception e) {
@@ -47,10 +61,12 @@ public class AudioPlayer {
 		
 	}
 	
+	// play audio dengan frame position 0
 	public static void play(String s) {
 		play(s, 0);
 	}
 	
+	// play audio dengan frame position tertentu 
 	public static void play(String s, int i) {
 		//jika audio sedang di-mute, batalkan play
 		if(mute) return;
@@ -78,7 +94,7 @@ public class AudioPlayer {
 		if(clips.get(s).isRunning()) clips.get(s).stop();
 	}
 	
-	
+	// resume audio, abaikan jika sedang mute
 	public static void resume(String s) {
 		if(mute) return;
 		if(clips.get(s).isRunning()) return;
@@ -97,6 +113,7 @@ public class AudioPlayer {
 		clips.get(s).loop(Clip.LOOP_CONTINUOUSLY);
 	}
 	
+	// get panjang frame dari audio 
 	public static int getFrames(String s) { return clips.get(s).getFrameLength(); }
 	
 

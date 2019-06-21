@@ -1,9 +1,14 @@
 package game.controller.state;
 
 import game.model.object.AudioPlayer;
+import game.model.object.Player;
+import game.model.user.Scores;
 import game.view.GamePanel;
 
 public class GameStateManager {
+	
+	// model table tpeace
+	private Scores scores;
 	
 	// array dari states
 	private GameState[] gameStates;
@@ -40,6 +45,9 @@ public class GameStateManager {
 		// inisialisasi audio player
 		AudioPlayer.init();
 		
+		// score
+		scores = new Scores();
+		
 		// inisialisasi gamestates
 		gameStates = new GameState[NUMGAMESTATES];
 		
@@ -61,8 +69,13 @@ public class GameStateManager {
 	
 	private void loadState(int state) {
 		// inisialisasi state
-		if(state == MENUSTATE) gameStates[state] = new MenuState(this);
-		else if(state == LEVEL1) {
+		// set bgm
+		AudioPlayer.stop(currentBgm);
+		if(state == MENUSTATE) { 
+			scores.update(Player.getUsername(), Player.getScore());
+			currentBgm = "bgm_menu";
+			gameStates[state] = new MenuState(this);
+		}else if(state == LEVEL1) {
 			currentBgm = "bgm_level1";
 			gameStates[state] = new Level1(this);
 		}
@@ -87,8 +100,7 @@ public class GameStateManager {
 		paused = b;		
 		// jika pause true, stop bgm
 		// jika false, resume
-		if(paused) AudioPlayer.stop(currentBgm);
-		else AudioPlayer.resume(currentBgm);
+		if(!paused )AudioPlayer.resume(currentBgm);
 	}
 	
 	// game over
@@ -99,6 +111,7 @@ public class GameStateManager {
 	// set status running dari game
 	public void setRunning(boolean b) {
 		running = b;
+		if(!running) AudioPlayer.stop(currentBgm);
 	}
 	
 	// cek status dari running

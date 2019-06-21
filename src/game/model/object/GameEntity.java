@@ -1,54 +1,65 @@
 package game.model.object;
 
-import java.awt.Color;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-public abstract class GameEntity {
+import game.model.object.attack.Attack;
+
+// Kelas abstrak untuk obejc-objek yang ada di game
+public abstract class GameEntity{
 	
-//	protected boolean up, down, left, right;
+	protected int width, height;
 	
-	public int width, height;
-	
-	public double x, y, dx, dy;
-	public double deceleration;
+	// posisi dan kecepatan bergerak
+	protected double x, y, dx, dy;
+	protected double deceleration;
 	
 	protected ArrayList<Attack> attacks;
 	
-	public abstract void draw(java.awt.Graphics2D g2);
-	
-	public abstract void update();
-	
+	// status
 	public boolean dead;
 	
-	public boolean collision(GameEntity ge) {
-		
+	public abstract void draw(java.awt.Graphics2D g2);	
+	public abstract void update();
+	
+	protected abstract void moveY();	
+	protected abstract void moveX();
+	
+	// set posisi baru objek
+	protected void setPosition() {		
+		x += dx; 
+		y += dy;
+	}
+	
+	// cek benturan antara objek game
+	public boolean collision(GameEntity ge) {		
 		Rectangle r1 = getRectangle();
 		Rectangle r2 = ge.getRectangle();
 		return r1.intersects(r2);
 	}
-	
+	// get posisi dan ukran object dalam bentuk rectangle
 	public Rectangle getRectangle() {
 		return new Rectangle((int)this.x, (int)this.y, this.width, this.height);
 	}
-	
+	// cek jika objek ge berada di dalam objek
 	public boolean contains(GameEntity ge) {
 		Rectangle r1 = getRectangle();
 		Rectangle r2 = ge.getRectangle();
 		return r1.contains(r2);
 	}
 	
-//	public void attack() {
-//		attacks.add(new Attack((int)x, (int)y, 5, attackColor));
-//	}
-	
-	public abstract void moveY();
-	
-	public abstract void moveX();
-	
-	protected void setPosition() {		
-		x += dx; 
-		y += dy;
+	// getters
+	public int getWidth() {
+		return width;
+	}
+	public int getHeight() {
+		return height;
+	}
+	public double getX() {
+		return x;
+	}
+	public double getY() {
+		return y;
 	}
 
 }

@@ -23,141 +23,94 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
+import game.model.object.Player;
 import game.model.user.Scores;
 
 public class ScoresWindow extends JFrame{
 	
+	// komponen window
 	private JTable table;
 	private DefaultTableModel dtm;
-	private JPanel panel;
-	
+	private JPanel panel;	
 	private JLabel lblUsername;
-	private JTextField txtUsername;
-	
+	private JTextField txtUsername;	
 	private JButton btnMain;
-	private JButton btnKeluar;
-	
+	private JButton btnKeluar;	
 	private JScrollPane scroll;
 	
+	// table header 
 	String tHead[] = new String[] {"No", "Username", "Score"};
 	
 	// model untuk skor
 	private Scores scores;
 	
-	private static String username; 
-	private int newScore;
-	
-	public static boolean insert=false;
-	public static boolean update=false;
-	
-	public static boolean STATE[] = new boolean[2]; 
-	
-//	private boolean inGame;
+	//username
+	private static String username;
 	
 	public ScoresWindow() {
 		
 		super("Tabel Skor");
 		
 		init();
-		
-//		inGame = false;
-		insert=false;
-		update=false;
-		
+		// load table skor
 		loadScores();
-		
+		// tampilkan window
 		this.setVisible(true);
 		
 	}
-	
-	public ScoresWindow(int skor) {
 		
-		super("Tabel Skor");
-		
-		init();
-		
-		newScore = skor;
-		
-		if(insert) {
-			scores.insert(username, newScore);
-		}else if(update) {
-			scores.update(username, newScore);
-		}
-		
-//		table.setModel(dtm);
-//		table.getColumnModel().getColumn(0).setPreferredWidth(4);
-//		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-//		dtm.setRowCount(0);
-		
-		loadScores();
-		
-		this.setVisible(true);
-	}
-	
-	
 	private void init() {
 		
-		scores = new Scores();
-		
+		// instansiasi
+		scores = new Scores();		
 		table = new JTable();
 		scroll = new JScrollPane();
-		dtm = new DefaultTableModel(tHead, 0);
-		
+		dtm = new DefaultTableModel(tHead, 0);		
 		lblUsername = new JLabel("Username");
-		txtUsername = new JTextField(18);
-		
+		txtUsername = new JTextField(18);		
 		btnMain = new JButton("Main");
-		btnKeluar = new JButton("Keluar");
-		
+		btnKeluar = new JButton("Keluar");		
 		panel = new JPanel(new BorderLayout());
 		
+		// set layout window ke borderlayout
 		this.getContentPane().setLayout(new BorderLayout());
-		
-		this.setSize(new Dimension(600, 500));
+		// set window size
+		this.setSize(new Dimension(500, 500));
 				
-		fillCenterPanel();
-		
-		JPanel panel4 = new JPanel();
-		panel4.setBackground(Color.green);		
-//		this.add(panel4, BorderLayout.WEST);
-		
+		// isi panel
+		fillPanel();		
 		panel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		// add panel ke window
 		this.add(panel, BorderLayout.CENTER);
 		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
-//		this.pack();
 		this.setLocationRelativeTo(null);
 		
-		//align table ke tengah
+		//align colom skor ke kanan
 		DefaultTableCellRenderer rightRenderer = new DefaultTableCellRenderer();
 		rightRenderer.setHorizontalAlignment( JLabel.RIGHT );
-//		table.setDefaultRenderer(String.class, centerRenderer);
-		//
 		table.setModel(dtm);
 		table.setGridColor(Color.LIGHT_GRAY);
 		table.setRowHeight(25);
-		
+		// set column width
 		table.getColumnModel().getColumn(0).setPreferredWidth(20);
 		table.getColumnModel().getColumn(1).setPreferredWidth(200);
 		table.getColumnModel().getColumn(2).setPreferredWidth(80);
 		table.getColumnModel().getColumn(2).setCellRenderer( rightRenderer );
-		
-//		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		dtm.setRowCount(0);
 	}
 	
-	private void fillCenterPanel() {
+	private void fillPanel() {		
 		
 		JPanel cPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-
 		cPanel.setBorder(BorderFactory.createEmptyBorder(60, 10, 0, 10));
-		cPanel.setPreferredSize(new Dimension(500, 400));
-//		cPanel.setBackground(Color.MAGENTA);
+		cPanel.setPreferredSize(new Dimension(450, 300));
 		
+		// panel yg menampung label dan input username
 		JPanel nPanel = new JPanel(new GridBagLayout());
-//		nPanel.setBackground(Color.CYAN);
-		nPanel.setPreferredSize(new Dimension(500, 100));
+		nPanel.setPreferredSize(new Dimension(400, 100));
 		GridBagConstraints c = new GridBagConstraints();
 		c.insets = new Insets(0, 0, 0, 20);
 		c.gridx = 0;
@@ -165,17 +118,12 @@ public class ScoresWindow extends JFrame{
 		nPanel.add(lblUsername, c);
 		c.gridx ++;
 		c.ipady = 10;
-//		c.weightx = 0.0;
-//		c.gridwidth=19;
 		nPanel.add(txtUsername, c);
-//		nPanel.add(lblUsername);
-//		nPanel.add(txtUsername);
 		nPanel.setBorder(new EmptyBorder(0, 0, 0, 0));
 		
-		
+		// panel untuk button
 		JPanel sPanel = new JPanel(new GridBagLayout());
-//		sPanel.setBackground(Color.CYAN);
-		sPanel.setPreferredSize(new Dimension(500, 80));
+		sPanel.setPreferredSize(new Dimension(400, 80));
 		GridBagConstraints c2 = new GridBagConstraints();
 		c2.insets = new Insets(0, 20, 0, 20);
 		c2.gridx = 0;
@@ -189,13 +137,13 @@ public class ScoresWindow extends JFrame{
 		c2.ipady = 8;
 		sPanel.add(btnKeluar, c2);
 		
+		// action listener
 		btnKeluar.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				keluar();
 			}
-		});
-		
+		});		
 		btnMain.addActionListener(new ActionListener() {			
 			@Override
 			public void actionPerformed(ActionEvent e) {				
@@ -204,25 +152,18 @@ public class ScoresWindow extends JFrame{
 		});
 		
 		cPanel.add(nPanel);
-		cPanel.add(getPanel());
-		cPanel.add(sPanel);
-		
+		cPanel.add(getTablePanel());
+		cPanel.add(sPanel);		
 		panel.add(cPanel, BorderLayout.CENTER);
 		
 	}
 	
-	private JPanel getPanel() {
-		
+	
+	private JPanel getTablePanel() {
+		// panel untuk table
 		JPanel panel = new JPanel(new BorderLayout());
-		panel.setBackground(Color.YELLOW);
-		panel.setPreferredSize(new Dimension(500, 200));
-		
-//		table = new JTable();
-//		table.setSize(200, 100);
-		
-////		table.setGridColor(Color.WHITE);
-//		table.setRowHeight(30);
-//		table.setPreferredScrollableViewportSize(new Dimension(200, 100));
+		panel.setBackground(Color.LIGHT_GRAY);
+		panel.setPreferredSize(new Dimension(400, 200));
 		table.setModel(
 				new DefaultTableModel(
 						new Object[][] { 
@@ -236,15 +177,12 @@ public class ScoresWindow extends JFrame{
 				)
 		);
 		scroll.setViewportView(table);
-		
-//		panel.add(txtUsername, BorderLayout.NORTH);
 		panel.add(scroll);
-		
 		return panel;
 	}
 	
 	private void loadScores() {
-		
+		// get users scores
 		try {
 			java.sql.ResultSet res = scores.getAll();
 			int i=1;
@@ -261,34 +199,31 @@ public class ScoresWindow extends JFrame{
 		}
 	}
 	
-	public void setInsert() {
-		insert = true;
-		update=false;
-	}
-	
-	public void setUpdate() {
-		update=true;
-		insert=false;
-	}
-	
+	// run game
 	private void runGame() {
 		
 		username = txtUsername.getText();
 	
+		// jika username kosong
 		if(username.isEmpty()) {
 			JOptionPane.showMessageDialog(this, "Username tidak boleh kosong", "Error", JOptionPane.WARNING_MESSAGE);
 			return;
 		}
 		
-		if(scores.findUsername(username)) setUpdate();
-		else setInsert();
+		// jika username belum ada, insert dengan skor 0
+		if(!scores.findUsername(username)) scores.insert(username, 0);
 		
-		Game.runGame();
+		// set username
+		Player.setUsername(username);
+		// jalankan window game
+		new GameWindow();
+		// hilankang window skor
 		this.dispose();
 	}
 	
+	// keluar aplikasi
 	private void keluar() {
-		this.dispose();
+		System.exit(0);		
 	}
 	
 }

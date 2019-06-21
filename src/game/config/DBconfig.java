@@ -4,10 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+
+// Kelas konfigurasi database
 public class DBconfig {
 	
 	private static Connection mysqlconfig;
-	
+	// open koneksi ke database
 	public static Connection openConnection() throws SQLException{
 		try {
 			String url="jdbc:mysql://localhost:3306/tmd_pbo2019";
